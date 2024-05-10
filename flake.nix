@@ -35,70 +35,19 @@
           let sys = if s == "aarch64-darwin" then "aarch64-linux" else "x86_64-linux"; in
           nixpkgs.lib.nixosSystem {
             system = sys;
-            modules = [{
-              virtualisation = {
-                vmVariant.virtualisation = {
-                  graphics = false;
-                  resolution = { x = 1900; y = 1200; };
-                  host.pkgs = nixpkgs.legacyPackages.${s};
-                };
-              };
-            }
-
-              ({ pkgs, ... }: {
-                services.getty.autologinUser = "guest";
-                users.users."guest" = {
-                  isNormalUser = true;
-                  extraGroups = [ "wheel" ];
-                  password = "123";
-                };
-
-                security.sudo.wheelNeedsPassword = false;
-
-                # Let 'nixos-version --json' know about the Git revision
-                # of this flake.
-                system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
-
-                # Network configuration.
-                networking = {
-                  bridges.br0.interfaces = [ "eth0" ]; # Adjust interface accordingly
-
-                  useDHCP = false;
-                  interfaces."br0".useDHCP = true;
-
-                  interfaces."br0".ipv4.addresses = [{
-                    address = "192.168.100.3";
-                    prefixLength = 24;
-                  }];
-                  defaultGateway = "192.168.100.1";
-                  nameservers = [ "192.168.100.1" ];
-                };
-
-
-                containers.website = {
-                  autoStart = true;
-                  privateNetwork = true;
-                  hostBridge = "br0"; # Specify the bridge name
-                  localAddress = "192.168.100.5/24";
-                  config = {
-                    services.httpd = {
-                      enable = true;
-                      adminAddr = "morty@example.org";
-                    };
-                    networking = {
-                      firewall = {
-                        enable = true;
-                        allowedTCPPorts = [ 80 ];
-                      };
-                      # Use systemd-resolved inside the container
-                      # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
-                      useHostResolvConf = pkgs.lib.mkForce false;
-                    };
-
-                    services.resolved.enable = true;
+            modules = [
+              {
+                virtualisation = {
+                  vmVariant.virtualisation = {
+                    graphics = false;
+                    resolution = { x = 1900; y = 1200; };
+                    host.pkgs = nixpkgs.legacyPackages.${s};
                   };
                 };
-              })];
+              }
+              ./hosts/system.nix
+              ./containers/website.nix
+            ];
           });
     };
 }
