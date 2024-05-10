@@ -96,7 +96,6 @@
                     services.resolved.enable = true;
                   };
                 };
-                # Enable a web server.
               })];
           });
     };
