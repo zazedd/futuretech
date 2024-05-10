@@ -26,7 +26,8 @@
       };
     in
     {
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
+
+      formatter = nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
       nixosConfigurations.container =
