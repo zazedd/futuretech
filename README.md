@@ -1,5 +1,5 @@
 # FutureTech
-Trabalho prático de Admnistração de Sistemas em Rede.
+Trabalho prático de Administração de Sistemas em Rede.
 
 ## Running
 ```sh
