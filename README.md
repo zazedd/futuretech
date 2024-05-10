@@ -9,7 +9,7 @@ nix run .#run
 ## Requirements
 - [ ] A empresa quer três páginas web:
   - [ ] Página de administração: **admin.futuretech.pt** – Apenas acedida na rede Interna.
-  - [ ] Página para comunicação interna: **gestao.futuretech.pt – Apenas acedida na rede interna.
+  - [ ] Página para comunicação interna: **gestao.futuretech.pt** – Apenas acedida na rede interna.
   - [ ] Página para clientes: **clientes.futuretech.pt** – Apenas acedida na rede externa.
 - [ ] A empresa quer serviço de Email e querem usar um cliente de email, como por exemplo o Thunderbird.
 - [ ] WiFi:
