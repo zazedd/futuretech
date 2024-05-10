@@ -16,7 +16,7 @@ Trabalho prático de Admnistração de Sistemas em Rede.
 
 Neste contexto o trabalho prático divide-se em 3 partes (3 entregas):
 1. Planeamento da rede e serviços (5% da nota do TP)
-   - Prazo: 19/05/2024 , 23.59.
+   - Prazo: 19/05/2024, 23.59.
 2. Implementação dos serviços (15% da nota do TP)
    - Prazo: 26/05/2024, 23.59.
 3. Implementação do sistema de backups e logs (10% da nota do TP)
