@@ -1,6 +1,11 @@
 # FutureTech
 Trabalho prático de Admnistração de Sistemas em Rede.
 
+## Running
+```sh
+nix run .#run
+```
+
 ## Requirements
 - [ ] A empresa quer três páginas web:
   - [ ] Página de administração: **admin.futuretech.pt** – Apenas acedida na rede Interna.
