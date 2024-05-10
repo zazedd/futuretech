@@ -30,15 +30,16 @@
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
       nixosConfigurations.container =
-        nixpkgs.lib.genAttrs (linuxSystems) (system:
+        nixpkgs.lib.genAttrs (darwinSystems ++ linuxSystems) (s:
+          let sys = if s == "aarch64-darwin" then "aarch64-linux" else "x86_64-linux"; in
           nixpkgs.lib.nixosSystem {
-            inherit system;
+            system = sys;
             modules = [{
               virtualisation = {
                 vmVariant.virtualisation = {
                   graphics = false;
                   resolution = { x = 1900; y = 1200; };
-                  host.pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+                  host.pkgs = nixpkgs.legacyPackages.${s};
                 };
               };
             }
