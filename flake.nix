@@ -46,7 +46,7 @@
                 };
               }
               ./hosts/system.nix
-              ./containers/website.nix
+              ./containers/websites.nix
             ];
           });
     };
