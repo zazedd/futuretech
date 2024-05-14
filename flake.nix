@@ -26,13 +26,12 @@
       };
     in
     {
-
       formatter = nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
       nixosConfigurations.container =
         nixpkgs.lib.genAttrs (darwinSystems ++ linuxSystems) (s:
-          let sys = if s == "aarch64-darwin" then "aarch64-linux" else "x86_64-linux"; in
+          let sys = if s == "aarch64-darwin" || s == "aarch64-linux" then "aarch64-linux" else "x86_64-linux"; in
           nixpkgs.lib.nixosSystem {
             system = sys;
             specialArgs = inputs;
@@ -50,6 +49,7 @@
               ./containers/websites.nix
               ./containers/email_dns.nix
               ./containers/proxy.nix
+              ./containers/outside.nix
             ];
           });
     };

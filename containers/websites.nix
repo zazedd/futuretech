@@ -44,31 +44,36 @@ in
         };
       };
 
-      services.nginx.enable = true;
-      services.nginx.virtualHosts."admin.futuretech.pt" = {
-        addSSL = true;
-        enableACME = true;
-        root = "/etc/www/admin";
-        locations."/".extraConfig = ''
-          allow 10.0.0.0/16;
-          deny all; # Deny all other IPs
-        '';
-      };
+      services.nginx = {
+        enable = true;
+        recommendedTlsSettings = true;
+        recommendedOptimisation = true;
 
-      services.nginx.virtualHosts."gestao.futuretech.pt" = {
-        addSSL = true;
-        enableACME = true;
-        root = "/etc/www/gestao";
-        locations."/".extraConfig = ''
-          allow 10.0.0.0/16;
-          deny all; # Deny all other IPs
-        '';
-      };
+        virtualHosts."clientes.futuretech.pt" = {
+          addSSL = true;
+          enableACME = true;
+          root = "/etc/www/clientes";
+        };
 
-      services.nginx.virtualHosts."clientes.futuretech.pt" = {
-        addSSL = true;
-        enableACME = true;
-        root = "/etc/www/clientes";
+        virtualHosts."admin.futuretech.pt" = {
+          addSSL = true;
+          enableACME = true;
+          root = "/etc/www/admin";
+          locations."/".extraConfig = ''
+            allow 10.0.0.0/16;
+            deny all; # Deny all other IPs
+          '';
+        };
+
+        virtualHosts."gestao.futuretech.pt" = {
+          addSSL = true;
+          enableACME = true;
+          root = "/etc/www/gestao";
+          locations."/".extraConfig = ''
+            allow 10.0.0.0/16;
+            deny all; # Deny all other IPs
+          '';
+        };
       };
 
       security.acme = {

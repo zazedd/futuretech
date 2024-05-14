@@ -12,6 +12,17 @@
     pkgs.dig
   ];
 
+  environment.etc = {
+    "/outside/hosts" = {
+      enable = true;
+      text = ''
+        127.0.0.1       localhost
+        255.255.255.255 broadcasthost
+        ::1             localhost
+        82.103.20.2     futuretech.pt
+      '';
+    };
+  };
 
   # Network configuration.
   networking = {
@@ -20,22 +31,39 @@
     # nat.internalInterfaces = ["ve-+"];
     # nat.externalInterface = "eth0";
 
-    bridges.br0.interfaces = [ "eth0" ]; 
+    bridges.br0.interfaces = [ "eth0" ];
 
     useDHCP = false;
     interfaces."br0".useDHCP = true;
 
-    interfaces."br0".ipv4.addresses = [
-      {
-        address = "10.0.0.1";
-        prefixLength = 24;
-      }
-    ];
+    interfaces."br0".ipv4 = {
+      addresses = [
+        {
+          address = "10.0.0.0";
+          prefixLength = 24;
+        }
+        {
+          address = "82.103.20.1";
+          prefixLength = 24;
+        }
+      ];
+      routes = [
+        {
+          address = "82.103.20.0";
+          prefixLength = 24;
+          via = "10.0.0.1";
+        }
+        {
+          address = "10.0.0.0";
+          prefixLength = 24;
+          via = "82.103.20.2";
+        }
+      ];
+    };
 
     defaultGateway = "10.0.0.1";
     nameservers = [ "10.0.0.2" ];
-
-    extraHosts = "81.104.20.2 futuretech.pt";
+    extraHosts = "";
   };
 
   system.stateVersion = "24.05";
