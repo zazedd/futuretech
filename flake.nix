@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs }@inputs:
     let
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
       darwinSystems = [ "x86_64-darwin" "aarch64-darwin" ];
@@ -35,6 +35,7 @@
           let sys = if s == "aarch64-darwin" then "aarch64-linux" else "x86_64-linux"; in
           nixpkgs.lib.nixosSystem {
             system = sys;
+            specialArgs = inputs;
             modules = [
               {
                 virtualisation = {
@@ -47,6 +48,8 @@
               }
               ./hosts/system.nix
               ./containers/websites.nix
+              ./containers/email_dns.nix
+              ./containers/proxy.nix
             ];
           });
     };
