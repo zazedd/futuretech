@@ -25,13 +25,6 @@ in
         password = "123";
       };
 
-      # interfaces."eth1".ipv4.addresses = [
-      #   {
-      #     address = "81.104.20.2";
-      #     prefixLength = 24;
-      #   }
-      # ];
-
       security.sudo.wheelNeedsPassword = false;
 
       environment.etc = {
