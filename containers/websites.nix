@@ -136,8 +136,8 @@ in
       networking = {
         firewall = {
           enable = true;
-          allowedTCPPorts = [ 25 53 80 143 443 465 587 993 ];
-          allowedUDPPorts = [ 25 53 80 143 443 465 587 993 ];
+          allowedTCPPorts = [ 53 80 443 465 993 ];
+          allowedUDPPorts = [ 53 80 443 465 993 ];
         };
 
         useHostResolvConf = pkgs.lib.mkForce false;
