@@ -1,4 +1,4 @@
-({ pkgs, ... }: {
+({ pkgs, home-manager, ... }: {
   services.getty.autologinUser = "guest";
   users.users."guest" = {
     isNormalUser = true;
@@ -10,20 +10,12 @@
 
   environment.systemPackages = with pkgs; [
     dig
+    vim
     inetutils
+    openssl
+    gsasl
+    gnutls
   ];
-
-  environment.etc = {
-    "/outside/hosts" = {
-      enable = true;
-      text = ''
-        127.0.0.1       localhost
-        255.255.255.255 broadcasthost
-        ::1             localhost
-        82.103.20.2     futuretech.pt
-      '';
-    };
-  };
 
   # Network configuration.
   networking = {

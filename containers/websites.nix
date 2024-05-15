@@ -3,7 +3,7 @@
 # 1 accessible from outside and in: clientes.futuretech.pt
 
 # email server also
-{ pkgs, ... }:
+{ pkgs, options, config, home-manager, ... }:
 let
   simple_page = str: '' 
             <html lang="en">
@@ -30,11 +30,35 @@ in
       security.sudo.wheelNeedsPassword = false;
       users.users.root.hashedPassword = "";
 
-
       # email server
       services.maddy = {
         enable = true;
         primaryDomain = "futuretech.pt";
+        openFirewall = true;
+        tls = {
+          loader = "file";
+          certificates = [{
+            keyPath = "/var/lib/acme/mx1.futuretech.pt/key.pem";
+            certPath = "/var/lib/acme/mx1.futuretech.pt/cert.pem";
+          }];
+        };
+        # Enable TLS listeners. Configuring this via the module is not yet
+        # implemented, see https://github.com/NixOS/nixpkgs/pull/153372
+        config = builtins.replaceStrings [
+          "imap tcp://0.0.0.0:143"
+          "submission tcp://0.0.0.0:587"
+        ] [
+          "imap tls://0.0.0.0:993 tcp://0.0.0.0:143"
+          "submission tls://0.0.0.0:465 tcp://0.0.0.0:587"
+        ]
+          options.services.maddy.config.default;
+
+        # Careful dont use this in production, it writes this as a plaintext readable file in the nix store
+        secrets = [
+          "${pkgs.writeText "secrets" ''
+          GANDI_API_KEY=1234
+        ''}"
+        ];
         ensureAccounts = [
           "user1@futuretech.pt"
           "user2@futuretech.pt"
@@ -100,6 +124,13 @@ in
       security.acme = {
         acceptTerms = true;
         defaults.email = "foo@bar.com";
+        certs = {
+          "mx1.futuretech.pt" = {
+            group = config.services.maddy.group;
+            webroot = "/var/lib/acme/acme-challenge/";
+          };
+        };
+
       };
 
       networking = {
