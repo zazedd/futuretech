@@ -46,8 +46,8 @@
                 };
               }
               ./hosts/system.nix
-              ./containers/websites.nix
-              ./containers/email_dns.nix
+              ./containers/websites.nix # includes email server
+              ./containers/dns.nix
               ./containers/proxy.nix
               ./containers/outside.nix
             ];

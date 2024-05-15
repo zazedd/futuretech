@@ -14,7 +14,7 @@
     };
     extraVeths = {
       "eth1" = {
-        localAddress = "10.0.0.4/24";
+        localAddress = "10.0.0.5/24";
         hostBridge = "br0";
       };
     };

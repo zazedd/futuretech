@@ -8,8 +8,9 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  environment.systemPackages = [
-    pkgs.dig
+  environment.systemPackages = with pkgs; [
+    dig
+    inetutils
   ];
 
   environment.etc = {

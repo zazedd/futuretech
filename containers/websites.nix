@@ -1,6 +1,8 @@
 # 3 websites are going to be defined here using nginx
 # 2 only accessible the intranet: admin.futuretech.pt and gestao.futuretech.pt
 # 1 accessible from outside and in: clientes.futuretech.pt
+
+# email server also
 { pkgs, ... }:
 let
   simple_page = str: '' 
@@ -18,14 +20,33 @@ in
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "10.0.0.3/24";
     config = {
-      services.getty.autologinUser = "guest";
+      services.getty.autologinUser = "root";
       users.users."guest" = {
         isNormalUser = true;
         extraGroups = [ "wheel" ];
-        password = "123";
+        hashedPassword = "";
       };
 
       security.sudo.wheelNeedsPassword = false;
+      users.users.root.hashedPassword = "";
+
+
+      # email server
+      services.maddy = {
+        enable = true;
+        primaryDomain = "futuretech.pt";
+        ensureAccounts = [
+          "user1@futuretech.pt"
+          "user2@futuretech.pt"
+          "postmaster@futuretech.pt"
+        ];
+        ensureCredentials = {
+          # This will make passwords world-readable in the Nix store
+          "user1@futuretech.pt".passwordFile = "${pkgs.writeText "postmaster" "test"}";
+          "user2@futuretech.pt".passwordFile = "${pkgs.writeText "postmaster" "test"}";
+          "postmaster@futuretech.pt".passwordFile = "${pkgs.writeText "postmaster" "test"}";
+        };
+      };
 
       environment.etc = {
         "/www/admin/index.html" = {
@@ -84,8 +105,8 @@ in
       networking = {
         firewall = {
           enable = true;
-          allowedTCPPorts = [ 443 ];
-          allowedUDPPorts = [ 443 ];
+          allowedTCPPorts = [ 25 53 80 143 443 465 587 993 ];
+          allowedUDPPorts = [ 25 53 80 143 443 465 587 993 ];
         };
 
         useHostResolvConf = pkgs.lib.mkForce false;
