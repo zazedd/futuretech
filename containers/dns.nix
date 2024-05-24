@@ -6,12 +6,13 @@
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "10.0.0.2/24";
     config = {
-      services.getty.autologinUser = "guest";
       users.users."guest" = {
         isNormalUser = true;
         extraGroups = [ "wheel" ];
         password = "123";
       };
+
+      services.getty.autologinUser = "guest";
 
       security.sudo.wheelNeedsPassword = false;
       security.acme.acceptTerms = true;
@@ -57,6 +58,7 @@
             default._domainkey            TXT      "${pkgs.lib.concatStringsSep "\" \"" domainkeySplitted}"
           '';
 
+        # Reverse DNS lookup. important for email
         zones."0.0.10.in-addr.arpa.".data = ''
           @ SOA ns.futuretech.pt. noc.futuretech.pt. 666 7200 3600 1209600 3600
           @ NS ns.futuretech.pt.

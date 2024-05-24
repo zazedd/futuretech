@@ -42,6 +42,7 @@ in
             certPath = "/var/lib/acme/mx1.futuretech.pt/cert.pem";
           }];
         };
+
         # Enable TLS listeners. Configuring this via the module is not yet
         # implemented, see https://github.com/NixOS/nixpkgs/pull/153372
         config = builtins.replaceStrings [
@@ -53,12 +54,6 @@ in
         ]
           options.services.maddy.config.default;
 
-        # Careful dont use this in production, it writes this as a plaintext readable file in the nix store
-        secrets = [
-          "${pkgs.writeText "secrets" ''
-          GANDI_API_KEY=1234
-        ''}"
-        ];
         ensureAccounts = [
           "user1@futuretech.pt"
           "user2@futuretech.pt"
@@ -104,20 +99,20 @@ in
           addSSL = true;
           enableACME = true;
           root = "/etc/www/admin";
-          locations."/".extraConfig = ''
-            allow 10.0.0.0/16;
-            deny all; # Deny all other IPs
-          '';
+          # locations."/".extraConfig = ''
+          #   allow 10.0.0.0/16;
+          #   deny all; # Deny all other IPs
+          # '';
         };
 
         virtualHosts."gestao.futuretech.pt" = {
           addSSL = true;
           enableACME = true;
           root = "/etc/www/gestao";
-          locations."/".extraConfig = ''
-            allow 10.0.0.0/16;
-            deny all; # Deny all other IPs
-          '';
+          # locations."/".extraConfig = ''
+          #   allow 10.0.0.0/16;
+          #   deny all; # Deny all other IPs
+          # '';
         };
       };
 
@@ -130,7 +125,6 @@ in
             webroot = "/var/lib/acme/acme-challenge/";
           };
         };
-
       };
 
       networking = {

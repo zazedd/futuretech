@@ -1,9 +1,10 @@
 { pkgs, ... }: {
   containers.outside = {
-    autoStart = true;
+    autoStart = false;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "82.103.20.3/24";
+    ephemeral = true; # makes the container stateless, it will reset on restart
     config = {
       services.getty.autologinUser = "guest";
       users.users."guest" = {

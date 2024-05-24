@@ -57,7 +57,9 @@
               ./containers/websites.nix # includes email server
               ./containers/dns.nix
               ./containers/proxy.nix
+              ./containers/dhcp.nix
               ./containers/outside.nix
+              ./containers/guest.nix
             ];
           });
     };

@@ -8,6 +8,21 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  # services.xserver.enable = true;
+  # services.xserver.windowManager.dwm.enable = true;
+  #
+  # services.xserver.libinput.enable = true;
+  # services.xserver.libinput.mouse.accelProfile = "adaptive";
+  # services.xserver.libinput.mouse.accelSpeed = "-0.5";
+  # services.xserver.libinput.mouse.scrollMethod = "twofinger";
+  #
+  # services.xserver.libinput.touchpad = {
+  #   accelProfile = "adaptive";
+  #   accelSpeed = "-0.5";
+  #   scrollMethod = "twofinger";
+  #   tapping = true;
+  # };
+
   environment.systemPackages = with pkgs; [
     dig
     vim
@@ -15,7 +30,18 @@
     openssl
     gsasl
     gnutls
+    # thunderbird
+    # dmenu
   ];
+
+  boot.kernel.sysctl."max_user_instances" = 8192;
+
+  # systemd.network.enable = true;
+  # systemd.network.networks."10-br0"= {
+  #   enable = true;
+    # name = "br0";
+    # DHCP = "no";
+  # };
 
   # Network configuration.
   networking = {
@@ -27,12 +53,24 @@
     bridges.br0.interfaces = [ "eth0" ];
 
     useDHCP = false;
-    interfaces."br0".useDHCP = true;
+    interfaces."br0".useDHCP = false;
 
     interfaces."br0".ipv4 = {
       addresses = [
         {
           address = "10.0.0.0";
+          prefixLength = 24;
+        }
+        {
+          address = "10.0.1.0";
+          prefixLength = 24;
+        }
+        {
+          address = "10.0.2.0";
+          prefixLength = 24;
+        }
+        {
+          address = "10.0.3.0";
           prefixLength = 24;
         }
         {
@@ -50,6 +88,36 @@
           address = "10.0.0.0";
           prefixLength = 24;
           via = "82.103.20.2";
+        }
+        {
+          address = "10.0.0.0";
+          prefixLength = 24;
+          via = "10.0.1.0";
+        }
+        {
+          address = "10.0.0.0";
+          prefixLength = 24;
+          via = "10.0.2.0";
+        }
+        {
+          address = "10.0.0.0";
+          prefixLength = 24;
+          via = "10.0.3.0";
+        }
+        {
+          address = "10.0.1.0";
+          prefixLength = 24;
+          via = "10.0.0.0";
+        }
+        {
+          address = "10.0.2.0";
+          prefixLength = 24;
+          via = "10.0.0.0";
+        }
+        {
+          address = "10.0.3.0";
+          prefixLength = 24;
+          via = "10.0.0.0";
         }
       ];
     };
