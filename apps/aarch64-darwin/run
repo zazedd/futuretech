@@ -6,7 +6,7 @@ RED='\033[1;31m'
 NC='\033[0m'
 
 SYSTEM_TYPE="aarch64-darwin"
-FLAKE_SYSTEM="nixosConfigurations.container.${SYSTEM_TYPE}.config.system.build.vm"
+FLAKE_SYSTEM="nixosConfigurations.vm.${SYSTEM_TYPE}.config.system.build.vm"
 
 export NIXPKGS_ALLOW_UNFREE=1
 

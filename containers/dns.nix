@@ -1,7 +1,7 @@
 # DNS for the whole network
 { pkgs, ... }: {
   containers.dns = {
-    autoStart = true;
+    autoStart = false;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "10.0.0.2/24";
@@ -35,7 +35,8 @@
             # Careful: this needs to be changed according to what your maddy generated.
             # The key is in the /var/lib/maddy/dkim_keys directory
             domainkey = ''
-              v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyDsD90wH8v32SEQDR6WBi/Vx0vPZWnOdZMnj1tnntVvZPXcAT01wIWfp8tj81f5QqdV1/I8/1/QDrsIaZusJTfv3+FycHng3v7NTX7kWNZMJoYPL4nM9F7jn5hl1xeZyzKWj9OF2zIKekRzQZ2I9sA3aAe749n+lq9rdImB12qFG7/u1bXKKjJOkqhKhhUM6CLKrpezAV7Lz5L1L61ltP9v7bVZWtyFvkKk5pmFqDA7D45cFIp1R5zo9AflQFVHoHhWdqTJ9jtsNkLDChx3CqQzrTENT2l4uImeHS2i/5lxvukoAsOw+L1rkNFJhkiPL//jb8v4FnA7QGch0s3QohQIDAQAB'';
+                v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwyFhwQd0ThJvwByta60iyTSMpBKe02EiVoU69A8OXYy+sQW6hsLEYb/CxBTMiyqIFhkJsdP8VsJCi0Goxpmq0GS1WxHKwxEC0m+GNgy7yMzHorrbPHC2YiIO9qGUZHdk9Ht4FUXQLlfrCQuxtDkUNoE6o9jqRAO9XiOzlUF2tpGRBR5UT0Q0nPV8lW+M8AlK+lfFNkF7OtfMyT+KeOBVLPW9v8163bQDF47fD8Udxw3KwxLJu3sprz8wgXz0i9PhoJwgSq9TEM3FoigKVYC0DubJw5jpJIK+olefNtWdcZg614S0qQHSl1f0rUbqbBvPOtt408NYFl4K3U3d0TDtEwIDAQAB
+            '';
             segments = ((pkgs.lib.stringLength domainkey) / 255);
             domainkeySplitted = map (x: pkgs.lib.substring (x * 255) 255 domainkey) (pkgs.lib.range 0 segments);
           in

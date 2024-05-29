@@ -30,7 +30,7 @@
       formatter = nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
-      nixosConfigurations.container =
+      nixosConfigurations.vm =
         nixpkgs.lib.genAttrs (darwinSystems ++ linuxSystems) (s:
           let sys = if s == "aarch64-darwin" || s == "aarch64-linux" then "aarch64-linux" else "x86_64-linux"; in
           nixpkgs.lib.nixosSystem {
@@ -54,7 +54,9 @@
                 };
               }
               ./hosts/system.nix
+
               ./containers/websites.nix # includes email server
+              ./containers/log.nix
               ./containers/dns.nix
               ./containers/proxy.nix
               ./containers/dhcp.nix

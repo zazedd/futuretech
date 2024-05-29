@@ -15,7 +15,7 @@ let
 in
 {
   containers.websites = {
-    autoStart = true;
+    autoStart = false;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "10.0.0.3/24";
@@ -125,6 +125,14 @@ in
             webroot = "/var/lib/acme/acme-challenge/";
           };
         };
+      };
+
+      services.rsyslogd = {
+        enable = true;
+        extraConfig = ''
+          *.* @@10.0.0.4:514  # For TCP
+          *.* @10.0.0.4:514   # For UDP
+        '';
       };
 
       networking = {
