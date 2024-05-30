@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   containers.proxy = {
-    autoStart = true;
+    autoStart = false;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "82.103.20.2/24";
@@ -63,7 +63,7 @@
 
       networking = {
         firewall = {
-          enable = true;
+          enable = false;
           allowedTCPPorts = [ 443 ];
           allowedUDPPorts = [ 443 ];
         };

@@ -1,7 +1,7 @@
 # DNS for the whole network
 { pkgs, ... }: {
   containers.dns = {
-    autoStart = true;
+    autoStart = false;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "10.0.0.2/24";
