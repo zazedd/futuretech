@@ -35,7 +35,8 @@
             # Careful: this needs to be changed according to what your maddy generated.
             # The key is in the /var/lib/maddy/dkim_keys directory
             domainkey = ''
-              v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyDsD90wH8v32SEQDR6WBi/Vx0vPZWnOdZMnj1tnntVvZPXcAT01wIWfp8tj81f5QqdV1/I8/1/QDrsIaZusJTfv3+FycHng3v7NTX7kWNZMJoYPL4nM9F7jn5hl1xeZyzKWj9OF2zIKekRzQZ2I9sA3aAe749n+lq9rdImB12qFG7/u1bXKKjJOkqhKhhUM6CLKrpezAV7Lz5L1L61ltP9v7bVZWtyFvkKk5pmFqDA7D45cFIp1R5zo9AflQFVHoHhWdqTJ9jtsNkLDChx3CqQzrTENT2l4uImeHS2i/5lxvukoAsOw+L1rkNFJhkiPL//jb8v4FnA7QGch0s3QohQIDAQAB'';
+              v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA964bgacUNFtEpFGnwMsf4b//+4Td4IFYorvBdNc/s6MYYRQNYgKyLMxARZWrePH3IeHQQ9VNFlmtWWEV5OoKwtDQdQYRUa2NsLSeJeTZ9N/uWQTUUGeeerTydbuxFfcSf4yfvwoh7sVjs9FiLRX6ua5WhK/22z3yP1yq57Xw6I7713c7UBs2VizNbT4ceNDB2W0+oPKsUuqA6vEa/6p3ooO5UB4TFUctHoxZH3dpy34QvHF2ddMWXfxnc5oRvqUXmmUpLWtobtWUBE4mvX/8zbaeCcTbAFnFsDfAc+RG9jSWb8IDbwjxklDkC4Qbn5tUd0Jp4XA5sVkWwVkPG+4bQwIDAQAB
+            '';
             segments = ((pkgs.lib.stringLength domainkey) / 255);
             domainkeySplitted = map (x: pkgs.lib.substring (x * 255) 255 domainkey) (pkgs.lib.range 0 segments);
           in

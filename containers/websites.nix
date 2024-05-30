@@ -89,6 +89,11 @@ in
         recommendedTlsSettings = true;
         recommendedOptimisation = true;
 
+        appendHttpConfig = ''
+          error_log syslog:server=10.0.0.4:514,facility=local7,tag=nginx,severity=error;
+          access_log syslog:server=10.0.0.4:514,facility=local7,tag=nginx,severity=info;
+        '';
+
         virtualHosts."clientes.futuretech.pt" = {
           addSSL = true;
           enableACME = true;
@@ -99,20 +104,12 @@ in
           addSSL = true;
           enableACME = true;
           root = "/etc/www/admin";
-          # locations."/".extraConfig = ''
-          #   allow 10.0.0.0/16;
-          #   deny all; # Deny all other IPs
-          # '';
         };
 
         virtualHosts."gestao.futuretech.pt" = {
           addSSL = true;
           enableACME = true;
           root = "/etc/www/gestao";
-          # locations."/".extraConfig = ''
-          #   allow 10.0.0.0/16;
-          #   deny all; # Deny all other IPs
-          # '';
         };
       };
 
@@ -125,6 +122,13 @@ in
             webroot = "/var/lib/acme/acme-challenge/";
           };
         };
+      };
+
+      services.rsyslogd = {
+        enable = true;
+        extraConfig = ''
+          *.*  @@10.0.0.4:514
+        '';
       };
 
       networking = {
