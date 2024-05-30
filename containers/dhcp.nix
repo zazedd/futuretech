@@ -62,6 +62,17 @@
         dhcp4 = {
           enable = true;
           settings = {
+            loggers = [
+              {
+                name = "kea-dhcp4";
+                severity = "INFO";
+                output_options = [
+                  {
+                    output = "syslog:local7";
+                  }
+                ];
+              }
+            ];
             interfaces-config = {
               interfaces = [
                 "eth1"

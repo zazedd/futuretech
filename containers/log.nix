@@ -29,15 +29,13 @@
           enable = true;
           files = [
             "/var/log/websites/nginx.log"
-            "/var/log/websites/maddy.log"
-            "/var/log/websites/acme.log"
+            "/var/log/websites/mail"
             "/var/log/websites/messages"
 
             "/var/log/dns/nsd.log"
             "/var/log/dns/messages"
 
             "/var/log/proxy/nginx.log"
-            "/var/log/proxy/acme.log"
             "/var/log/proxy/messages"
 
             "/var/log/dhcp/kea.log"

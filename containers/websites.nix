@@ -52,8 +52,8 @@ in
           "imap tls://0.0.0.0:993 tcp://0.0.0.0:143"
           "submission tls://0.0.0.0:465 tcp://0.0.0.0:587"
         ]
-          options.services.maddy.config.default;
-
+          (options.services.maddy.config.default + 
+          "\n" + "log syslog");
         ensureAccounts = [
           "user1@futuretech.pt"
           "user2@futuretech.pt"
@@ -127,7 +127,8 @@ in
       services.rsyslogd = {
         enable = true;
         extraConfig = ''
-          *.*  @@10.0.0.4:514
+          *.* @@10.0.0.4:514
+          *.* @10.0.0.4:514
         '';
       };
 
