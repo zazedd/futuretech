@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   containers.proxy = {
-    autoStart = false;
+    autoStart = true;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "82.103.20.2/24";

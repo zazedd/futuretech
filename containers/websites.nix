@@ -15,7 +15,7 @@ let
 in
 {
   containers.websites = {
-    autoStart = false;
+    autoStart = true;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "10.0.0.3/24";
