@@ -61,6 +61,7 @@
               ./containers/log.nix
               ./containers/proxy.nix
               ./containers/dhcp.nix
+              ./containers/backup.nix
               ./containers/outside.nix
               ./containers/guest.nix
             ];

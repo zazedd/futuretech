@@ -13,7 +13,7 @@
       };
     };
     config = {
-      services.getty.autologinUser = "guest";
+      services.getty.autologinUser = "root";
       users.users."guest" = {
         isNormalUser = true;
         extraGroups = [ "wheel" ];
@@ -21,6 +21,19 @@
       };
 
       security.sudo.wheelNeedsPassword = false;
+
+      services.borgbackup = {
+        jobs."log" = {
+          paths = "/var/log";
+          compression = "none";
+          environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519"; };
+          encryption = {
+            mode = "none";
+          };
+          repo = "borg@10.0.0.6:/var/bak/log";
+          startAt = "hourly";
+        };
+      };
 
       services.logrotate = {
         enable = true;
@@ -35,16 +48,13 @@
             "/var/log/dns/nsd.log"
             "/var/log/dns/messages"
 
-            "/var/log/proxy/nginx.log"
-            "/var/log/proxy/messages"
-
             "/var/log/dhcp/kea.log"
             "/var/log/dhcp/nginx.log"
             "/var/log/dhcp/messages"
           ];
 
           frequency = "hourly";
-          rotate = 4;
+          rotate = 1;
         };
       };
 

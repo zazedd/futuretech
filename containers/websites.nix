@@ -30,6 +30,19 @@ in
       security.sudo.wheelNeedsPassword = false;
       users.users.root.hashedPassword = "";
 
+      services.borgbackup = {
+        jobs."websites" = {
+          paths = "/etc/www";
+          compression = "none";
+          environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519"; };
+          encryption = {
+            mode = "none";
+          };
+          repo = "borg@10.0.0.6:/var/bak/websites";
+          startAt = "hourly";
+        };
+      };
+
       # email server
       services.maddy = {
         enable = true;
