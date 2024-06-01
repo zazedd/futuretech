@@ -8,6 +8,11 @@
         text = builtins.readFile ../configs/neomutt;
       };
     }
+    {
+      "/home/guest/servers.sh" = {
+        text = builtins.readFile ../configs/servers;
+      };
+    }
   ];
 
   programs.neomutt = {

@@ -1,0 +1,10 @@
+echo "${GREEN}Starting Backup server${NC}"
+nixos-container start backup
+sleep 1
+echo "${GREEN}Starting Log server${NC}"
+nixos-container start log
+sleep 1
+echo "${GREEN}Starting DHCP server${NC}"
+nixos-container start dhcp
+
+echo "${GREEN}Done!${NC}"

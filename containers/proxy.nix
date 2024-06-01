@@ -63,7 +63,7 @@
 
       networking = {
         firewall = {
-          enable = true;
+          enable = false;
           allowedTCPPorts = [ 443 ];
           allowedUDPPorts = [ 443 ];
         };

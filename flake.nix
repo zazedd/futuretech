@@ -47,6 +47,8 @@
               {
                 virtualisation = {
                   vmVariant.virtualisation = {
+                    cores = 6;
+                    memorySize = 8000;
                     graphics = false;
                     resolution = { x = 1900; y = 1200; };
                     host.pkgs = nixpkgs.legacyPackages.${s};
@@ -58,8 +60,10 @@
               ./containers/websites.nix # includes email server
               ./containers/log.nix
               ./containers/dns.nix
+              ./containers/log.nix
               ./containers/proxy.nix
               ./containers/dhcp.nix
+              ./containers/backup.nix
               ./containers/outside.nix
               ./containers/guest.nix
             ];

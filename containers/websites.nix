@@ -15,7 +15,7 @@ let
 in
 {
   containers.websites = {
-    autoStart = false;
+    autoStart = true;
     privateNetwork = true;
     hostBridge = "br0"; # Specify the bridge name
     localAddress = "10.0.0.3/24";
@@ -29,6 +29,19 @@ in
 
       security.sudo.wheelNeedsPassword = false;
       users.users.root.hashedPassword = "";
+
+      services.borgbackup = {
+        jobs."websites" = {
+          paths = "/etc/www";
+          compression = "none";
+          environment = { BORG_RSH = "ssh -i /root/.ssh/id_ed25519"; };
+          encryption = {
+            mode = "none";
+          };
+          repo = "borg@10.0.0.6:/var/bak/websites";
+          startAt = "hourly";
+        };
+      };
 
       # email server
       services.maddy = {
@@ -52,8 +65,8 @@ in
           "imap tls://0.0.0.0:993 tcp://0.0.0.0:143"
           "submission tls://0.0.0.0:465 tcp://0.0.0.0:587"
         ]
-          options.services.maddy.config.default;
-
+          (options.services.maddy.config.default + 
+          "\n" + "log syslog");
         ensureAccounts = [
           "user1@futuretech.pt"
           "user2@futuretech.pt"
@@ -89,6 +102,11 @@ in
         recommendedTlsSettings = true;
         recommendedOptimisation = true;
 
+        appendHttpConfig = ''
+          error_log syslog:server=10.0.0.4:514,facility=local7,tag=nginx,severity=error;
+          access_log syslog:server=10.0.0.4:514,facility=local7,tag=nginx,severity=info;
+        '';
+
         virtualHosts."clientes.futuretech.pt" = {
           addSSL = true;
           enableACME = true;
@@ -99,20 +117,12 @@ in
           addSSL = true;
           enableACME = true;
           root = "/etc/www/admin";
-          # locations."/".extraConfig = ''
-          #   allow 10.0.0.0/16;
-          #   deny all; # Deny all other IPs
-          # '';
         };
 
         virtualHosts."gestao.futuretech.pt" = {
           addSSL = true;
           enableACME = true;
           root = "/etc/www/gestao";
-          # locations."/".extraConfig = ''
-          #   allow 10.0.0.0/16;
-          #   deny all; # Deny all other IPs
-          # '';
         };
       };
 
@@ -130,9 +140,22 @@ in
       services.rsyslogd = {
         enable = true;
         extraConfig = ''
-          *.* @@10.0.0.4:514  # For TCP
-          *.* @10.0.0.4:514   # For UDP
+          *.* /var/log/all.log
+          *.* @@10.0.0.4:514
         '';
+      };
+
+      services.logrotate = {
+        enable = true;
+
+        settings."/var/log/all.log" = {
+          compress = true;
+          postrotate = ''
+            find /var/log/*.log -mtime +7 -exec rm {} \;
+          '';
+          frequency = "hourly";
+          rotate = 4;
+        };
       };
 
       networking = {
