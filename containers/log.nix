@@ -39,7 +39,7 @@
         enable = true;
 
         settings."multiple paths" = {
-          enable = true;
+          compress = true;
           files = [
             "/var/log/websites/nginx.log"
             "/var/log/websites/mail"

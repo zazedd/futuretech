@@ -8,6 +8,10 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+  
   # services.xserver.enable = true;
   # services.xserver.windowManager.dwm.enable = true;
   #
