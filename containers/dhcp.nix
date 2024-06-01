@@ -145,6 +145,7 @@
         enable = true;
 
         settings."/var/log/all.log" = {
+          compress = true;
           postrotate = ''
             find /var/log/*.log -mtime +7 -exec rm {} \;
           '';
