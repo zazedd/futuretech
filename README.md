@@ -15,9 +15,9 @@ nix run .#run
 - [x] WiFi:
   - [x] Workspace aberto com capacidade para um máximo de 40 colaboradores
   - [x] Duas salas de reuniões com rede dedicada, com capacidade para 10 colaboradores.
-- [ ] Gestão de backups e logs:
-  - [ ] Os backups devem ser realizados todos os dias e armazenar sempre e apenas a última semana.
-  - [ ] Devem ser guardados apenas logs da última semana.
+- [x] Gestão de backups e logs:
+  - [x] Os backups devem ser realizados todos os dias e armazenar sempre e apenas a última semana.
+  - [x] Devem ser guardados apenas logs da última semana.
 
 ## Entregas
 

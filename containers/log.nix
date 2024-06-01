@@ -31,7 +31,7 @@
             mode = "none";
           };
           repo = "borg@10.0.0.6:/var/bak/log";
-          startAt = "hourly";
+          startAt = "daily";
         };
       };
 
@@ -55,7 +55,7 @@
             find /var/log/dhcp/*.log -mtime +7 -exec rm {} \;
           '';
           frequency = "hourly";
-          rotate = 1;
+          rotate = 4;
         };
       };
 

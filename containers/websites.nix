@@ -39,7 +39,7 @@ in
             mode = "none";
           };
           repo = "borg@10.0.0.6:/var/bak/websites";
-          startAt = "hourly";
+          startAt = "daily";
         };
       };
 
