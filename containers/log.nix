@@ -45,14 +45,15 @@
             "/var/log/websites/mail"
             "/var/log/websites/messages"
 
-            "/var/log/dns/nsd.log"
-            "/var/log/dns/messages"
-
             "/var/log/dhcp/kea.log"
             "/var/log/dhcp/nginx.log"
             "/var/log/dhcp/messages"
           ];
 
+          postrotate = ''
+            find /var/log/websites/*.log -mtime +7 -exec rm {} \;
+            find /var/log/dhcp/*.log -mtime +7 -exec rm {} \;
+          '';
           frequency = "hourly";
           rotate = 1;
         };

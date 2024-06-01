@@ -72,6 +72,24 @@
                   }
                 ];
               }
+              {
+                name = "kea-dhcp4.leases";
+                severity = "INFO";
+                output_options = [
+                  {
+                    output = "syslog:local7";
+                  }
+                ];
+              }
+              {
+                name = "kea-dhcp4.dhcpsrv";
+                severity = "INFO";
+                output_options = [
+                  {
+                    output = "syslog:local7";
+                  }
+                ];
+              }
             ];
             interfaces-config = {
               interfaces = [
@@ -88,33 +106,50 @@
             rebind-timer = 1;
             renew-timer = 1;
             subnet4 = [
-            {
-              pools = [
               {
-                pool = "10.0.1.2 - 10.0.1.42";
+                id = 1;
+                pools = [ {
+                  pool = "10.0.1.2 - 10.0.1.42";
+                } ];
+                subnet = "10.0.1.0/26";
               }
-              ];
-              subnet = "10.0.1.0/26";
-            }
-            {
-              pools = [
               {
-                pool = "10.0.2.2 - 10.0.2.12";
+                id = 2;
+                pools = [ {
+                  pool = "10.0.2.2 - 10.0.2.12";
+                } ];
+                subnet = "10.0.2.0/26";
               }
-              ];
-              subnet = "10.0.2.0/26";
-            }
-            {
-              pools = [
               {
-                pool = "10.0.3.2 - 10.0.3.12";
+                id = 3;
+                pools = [ {
+                  pool = "10.0.3.2 - 10.0.3.12";
+                } ];
+                subnet = "10.0.3.0/26";
               }
-              ];
-              subnet = "10.0.3.0/26";
-            }
             ];
             valid-lifetime = 1;
           };
+        };
+      };
+
+      services.rsyslogd = {
+        enable = true;
+        extraConfig = ''
+          *.* /var/log/all.log
+          *.* @@10.0.0.4:514
+        '';
+      };
+
+      services.logrotate = {
+        enable = true;
+
+        settings."/var/log/all.log" = {
+          postrotate = ''
+            find /var/log/*.log -mtime +7 -exec rm {} \;
+          '';
+          frequency = "hourly";
+          rotate = 4;
         };
       };
 

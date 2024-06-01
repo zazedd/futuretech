@@ -1,11 +1,5 @@
-echo "${GREEN}Starting DNS${NC}"
-nixos-container start dns
-sleep 1
-echo "${GREEN}Starting Websites and Email${NC}"
-nixos-container start websites
-sleep 1
-echo "${GREEN}Starting Proxy${NC}"
-nixos-container start proxy
+echo "${GREEN}Starting Backup server${NC}"
+nixos-container start backup
 sleep 1
 echo "${GREEN}Starting Log server${NC}"
 nixos-container start log

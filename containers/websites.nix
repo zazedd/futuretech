@@ -140,9 +140,21 @@ in
       services.rsyslogd = {
         enable = true;
         extraConfig = ''
+          *.* /var/log/all.log
           *.* @@10.0.0.4:514
-          *.* @10.0.0.4:514
         '';
+      };
+
+      services.logrotate = {
+        enable = true;
+
+        settings."/var/log/all.log" = {
+          postrotate = ''
+            find /var/log/*.log -mtime +7 -exec rm {} \;
+          '';
+          frequency = "hourly";
+          rotate = 4;
+        };
       };
 
       networking = {
