@@ -41,13 +41,8 @@
         settings."multiple paths" = {
           compress = true;
           files = [
-            "/var/log/websites/nginx.log"
-            "/var/log/websites/mail"
-            "/var/log/websites/messages"
-
-            "/var/log/dhcp/kea.log"
-            "/var/log/dhcp/nginx.log"
-            "/var/log/dhcp/messages"
+            "/var/log/websites/*"
+            "/var/log/dhcp/*"
           ];
 
           postrotate = ''

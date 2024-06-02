@@ -22,6 +22,24 @@
         enable = true;
       };
 
+      environment.etc = {
+        "prune.sh" = {
+          enable = true;
+          text = ''
+            borg prune -v --list /var/bak/websites --keep-within=7d
+            borg prune -v --list /var/bak/log --keep-within=7d
+          '';
+        };
+      };
+
+      services.cron = {
+        enable = true;
+        # Run the prune script everyday at 2 AM
+        systemCronJobs = [
+          "0 2 * * * /etc/prune.sh"
+        ];
+      };
+
       services.borgbackup = {
         repos."/var/bak/" = {
           path = "/var/bak/";
