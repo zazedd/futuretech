@@ -1,5 +1,5 @@
 # FutureTech
-Trabalho prático de Administração de Sistemas em Rede.
+Network Systems Administration practical work, developed with Nix Flakes for total reproducibility.
 
 ## Running
 ```sh
@@ -7,29 +7,19 @@ nix run .#run
 ```
 
 ## Requirements
-- [x] A empresa quer três páginas web:
-  - [x] Página de administração: **admin.futuretech.pt** – Apenas acedida na rede Interna.
-  - [x] Página para comunicação interna: **gestao.futuretech.pt** – Apenas acedida na rede interna.
-  - [x] Página para clientes: **clientes.futuretech.pt** – Apenas acedida na rede externa.
-- [x] A empresa quer serviço de Email e querem usar um cliente de email, como por exemplo o Thunderbird.
-- [x] WiFi:
-  - [x] Workspace aberto com capacidade para um máximo de 40 colaboradores
-  - [x] Duas salas de reuniões com rede dedicada, com capacidade para 10 colaboradores.
-- [x] Gestão de backups e logs:
-  - [x] Os backups devem ser realizados todos os dias e armazenar sempre e apenas a última semana.
-  - [x] Devem ser guardados apenas logs da última semana.
+- [x] The company wants three web pages:
+  - [x] Administration page: **admin.futuretech.pt** - Only accessed on the Internal network.
+  - [x] Internal communication page: **gestao.futuretech.pt** - Only accessed on the internal network.
+  - [x] Page for clients: **clientes.futuretech.pt** - Only accessed on the external network.
+- [x] The company wants an email service and wants to use an email client, such as Thunderbird.
+- [x] WiFi and Networks:
+  - [x] Open workspace with capacity for up to 40 employees
+  - [x] Two meeting rooms with a dedicated network, with a capacity for 10 employees.
+- [x] Backup and log management:
+  - [x] Backups should be carried out every day and always store only the last week.
+  - [x] Only logs from the last week should be stored.
 
-## Entregas
-
-Neste contexto o trabalho prático divide-se em 3 partes (3 entregas):
-1. Planeamento da rede e serviços (5% da nota do TP)
-   - Prazo: 19/05/2024, 23.59.
-2. Implementação dos serviços (15% da nota do TP)
-   - Prazo: 26/05/2024, 23.59.
-3. Implementação do sistema de backups e logs (10% da nota do TP)
-   - Prazo: 02/05/2024, 23.59.
-
-## Testar o DHCP
+## Testing the DHCP
 
 ```bash
 [guest@guest:~]$ sudo nmap --script broadcast-dhcp-discover
